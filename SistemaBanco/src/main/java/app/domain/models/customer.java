@@ -12,4 +12,5 @@ public class customer {
     private Long number_identification;
     private String email, cellphone, adress;
     private role role;
+    private List<bank_product> bankproducts;
 }
