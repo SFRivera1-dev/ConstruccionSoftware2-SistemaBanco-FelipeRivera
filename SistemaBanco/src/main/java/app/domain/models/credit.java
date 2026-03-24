@@ -1,5 +1,6 @@
 package app.domain.models;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,12 +10,13 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class credit {
-    private Long id_credit;
-    private String credit_type, customer_request_id;
-    private Float amount_requested, amount_approved, interest_rate;
-    private Integer term_months;
-    private credit_status credit_status;
-    private Date approval_date, disbursement_date;
-    private String destination_account;
+    private Long idCredit;
+    private creditType creditType;
+    private customer customerRequestId;
+    private BigDecimal amountRequested, amountApproved, interestRate;
+    private Integer termMonths;
+    private creditStatus creditStatus;
+    private Date approvalDate, disbursementDate;
+    private String destinationAccount;
 
 }

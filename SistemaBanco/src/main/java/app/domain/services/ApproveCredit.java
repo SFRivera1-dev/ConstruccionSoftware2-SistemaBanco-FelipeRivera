@@ -1,5 +1,5 @@
 package app.domain.services;
 
-public class ApproveCredit {
+public class approveCredit {
 
 }

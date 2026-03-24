@@ -9,10 +9,10 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class user {
-    private Long id_user, id_customer;
-    private String name_user, document, email, cellphine;
+    private Long idUser, idCustomer;
+    private String nameUser, document, email, cellphone;
     private Date birthdate;
     private String adress;
     private role role;
-    private user_status user_status;
+    private userStatus userStatus;
 }

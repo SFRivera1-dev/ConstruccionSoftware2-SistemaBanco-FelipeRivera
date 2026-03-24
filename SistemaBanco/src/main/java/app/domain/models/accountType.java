@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum account_type {
+public enum accountType {
     SAVINGS,
     CURRENT,
     PERSONAL,

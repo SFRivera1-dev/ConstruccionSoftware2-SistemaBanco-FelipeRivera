@@ -1,5 +1,5 @@
 package app.domain.services;
 
-public class SearchClient {
+public class searchClient {
 
 }

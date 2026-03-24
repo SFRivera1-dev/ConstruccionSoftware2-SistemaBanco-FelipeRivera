@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class bank_product {
-    private String code_product, name_product;
+public class bankProduct {
+    private String codeProduct, nameProduct;
     private category category;
-    private Boolean requires_approval;
+    private Boolean requiresApproval;
 }
 

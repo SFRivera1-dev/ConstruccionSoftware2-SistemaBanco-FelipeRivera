@@ -1,14 +1,15 @@
 package app.domain.models;
 
-import java.sql.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 
-
-public class person extends customer {
-    private Date birthdate;
+public class person {
+    private String name;
+    private Long document;
+    private String email, cellphone, adress;
 }

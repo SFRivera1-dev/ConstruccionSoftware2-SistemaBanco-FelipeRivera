@@ -1,5 +1,5 @@
 package app.domain.services;
 
-public class CreateBatchPaymet {
+public class createBatchPaymet {
 
 }

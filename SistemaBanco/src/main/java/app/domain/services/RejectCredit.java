@@ -1,5 +1,5 @@
 package app.domain.services;
 
-public class RejectCredit {
+public class rejectCredit {
 
 }

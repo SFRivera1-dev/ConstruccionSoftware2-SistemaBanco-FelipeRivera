@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum credit_status {
+public enum creditStatus {
     APPROVED, 
     REJECT,
     IN_STUDY,

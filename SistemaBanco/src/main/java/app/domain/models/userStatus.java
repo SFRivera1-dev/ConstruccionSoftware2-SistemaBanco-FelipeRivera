@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum user_status {
+public enum userStatus {
     ACTIVE,
     BLOCK,
     INACTIVE
