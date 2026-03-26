@@ -13,6 +13,7 @@ public class user {
     private String nameUser, document, email, cellphone;
     private Date birthdate;
     private String adress;
-    private role role;
+    private role role; //null si es cliente
+    private customerRole customerRole; // null si es empleado
     private userStatus userStatus;
 }
