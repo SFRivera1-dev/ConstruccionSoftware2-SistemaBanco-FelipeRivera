@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class customer extends person{
-    private String name;
+    private customerRole customerRole;
     private List<bankProduct> bankProducts;
 }
