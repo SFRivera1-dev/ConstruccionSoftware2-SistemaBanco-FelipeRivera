@@ -1,5 +1,5 @@
 package app.domain.services;
 
-public class createTransfer {
+public class CreateTransfer {
 
 }

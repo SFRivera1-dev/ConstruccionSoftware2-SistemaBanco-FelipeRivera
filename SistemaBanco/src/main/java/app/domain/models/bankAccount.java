@@ -10,12 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 
 
-public class bankAccount {
+public class BankAccount {
     private String accountNumber;
-    private accountType accountType;
-    private customer accountHolderID;
+    private AccountType accountType;
+    private Customer accountHolderID;
     private BigDecimal currentBalance;
-    private currency currency;
-    private accountStatement accountStatement;
+    private Currency currency;
+    private AccountStatement accountStatement;
     private Date openingDate;
 }

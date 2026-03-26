@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum category {
+public enum Category {
     ACCOUNTS,
     CREDIT,
     SERVICES

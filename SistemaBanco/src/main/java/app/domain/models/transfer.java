@@ -9,12 +9,12 @@ import lombok.Setter;
 @NoArgsConstructor
 
 
-public class transfer {
+public class Transfer {
     private Long idTransfer;
-    private bankAccount originAccount;
-    private bankAccount destinationAccount;
+    private BankAccount originAccount;
+    private BankAccount destinationAccount;
     private BigDecimal mount;
     private Date creationDate, approvalDate;
-    private transferStatus transferStatus;
+    private TransferStatus transferStatus;
     private Integer creatorUserId, approvedUserId;
 }

@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class customerCompany extends customer{
+public class CustomerCompany extends Customer{
     private String legalRepresentative;
 }

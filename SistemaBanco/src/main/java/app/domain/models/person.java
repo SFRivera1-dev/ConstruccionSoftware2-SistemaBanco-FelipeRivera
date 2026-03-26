@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class person {
+public class Person {
     private String name;
     private Long document;
     private String email, cellphone, adress;

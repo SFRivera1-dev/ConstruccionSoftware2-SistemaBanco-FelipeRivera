@@ -9,6 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 
 
-public class customerPerson extends customer {
+public class CustomerPerson extends Customer {
     private Date birthdate;
 }

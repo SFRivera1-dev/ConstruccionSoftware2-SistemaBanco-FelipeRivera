@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum role {
+public enum Role {
     SERVICE_ADVISOR,
     PRODUCT_ADVISOR,
     COMPANY_ADVISOR,

@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class credit {
+public class Credit {
     private Long idCredit;
-    private creditType creditType;
-    private customer customerRequestId;
+    private CreditType creditType;
+    private Customer customerRequestId;
     private BigDecimal amountRequested, amountApproved, interestRate;
     private Integer termMonths;
-    private creditStatus creditStatus;
+    private CreditStatus creditStatus;
     private Date approvalDate, disbursementDate;
     private String destinationAccount;
 }

@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum accountStatement {
+public enum AccountStatement {
     ACTIVE,
     BLOCK,
     CANCELLED

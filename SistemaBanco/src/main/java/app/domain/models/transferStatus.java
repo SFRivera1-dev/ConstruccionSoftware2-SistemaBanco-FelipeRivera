@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum transferStatus {
+public enum TransferStatus {
     AWAITING_APPROVAL,
     APPROVED,
     REJECT,

@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum customerRole {
+public enum CustomerRole {
     CUSTOMER_PERSON,
     COMPANY_CLIENT
 }

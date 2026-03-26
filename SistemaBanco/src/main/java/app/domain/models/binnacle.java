@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class binnacle {
+public class Binnacle {
     private String idBinnacle, operationType;
     private Date datetimeOperation;
     private Long idUser;
-    private role roleUser;
+    private Role roleUser;
     private String affectedProductId;
-    private details details;
+    private Details details;
 }

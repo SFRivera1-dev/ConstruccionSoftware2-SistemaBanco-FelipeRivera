@@ -1,5 +1,5 @@
 package app.domain.models;
 
-public class details {
+public class Details {
 
 }

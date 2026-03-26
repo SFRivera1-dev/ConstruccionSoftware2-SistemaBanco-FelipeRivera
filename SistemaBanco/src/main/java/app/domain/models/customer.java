@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class customer extends person{
-    private customerRole customerRole;
-    private List<bankProduct> bankProducts;
+public class Customer extends Person{
+    private CustomerRole customerRole;
+    private List<BankProduct> bankProducts;
 }

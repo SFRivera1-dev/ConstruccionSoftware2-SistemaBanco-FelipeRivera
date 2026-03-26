@@ -1,5 +1,5 @@
 package app.domain.ports;
 
-public class batchPaymentPort {
+public class BatchPaymentPort {
 
 }

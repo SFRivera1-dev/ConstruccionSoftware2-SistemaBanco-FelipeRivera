@@ -1,6 +1,6 @@
 package app.domain.models;
 
-public enum creditType {
+public enum CreditType {
     CONSUMER,
     AUTOMOTIVE,
     MORTGAGE,
