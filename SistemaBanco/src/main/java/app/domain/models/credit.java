@@ -18,5 +18,4 @@ public class credit {
     private creditStatus creditStatus;
     private Date approvalDate, disbursementDate;
     private String destinationAccount;
-
 }
