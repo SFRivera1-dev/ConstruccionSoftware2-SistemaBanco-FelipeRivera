@@ -1,5 +1,8 @@
 package app.domain.ports;
 
-public class ClientPort {
+import app.domain.models.Customer;
+public interface ClientPort {
+    Customer findByDocument(Long document);
+    Customer findById(Long id);
 
 }
