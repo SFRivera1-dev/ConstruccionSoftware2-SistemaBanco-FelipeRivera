@@ -4,7 +4,6 @@ import app.domain.Exceptions.BusinessException;
 import app.domain.models.Customer;
 import app.domain.models.CustomerRole;
 import app.domain.models.User;
-import app.domain.models.UserStatus;
 import app.domain.ports.ClientPort;
 import app.domain.ports.PermissionPort;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,7 +10,6 @@ import app.domain.models.TransferStatus;
 import app.domain.ports.AccountPort;
 import app.domain.ports.BatchPaymentPort;
 import app.domain.ports.BinnaclePort;
-import app.domain.ports.TransferPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +25,13 @@ public class CreateBatchPayment {
 
     private final BatchPaymentPort batchPaymentPort;
     private final AccountPort accountPort;
-    private final TransferPort transferPort;
     private final BinnaclePort binnaclePort;
 
     @Autowired
     public CreateBatchPayment(BatchPaymentPort batchPaymentPort, AccountPort accountPort,
-                             TransferPort transferPort, BinnaclePort binnaclePort) {
+                              BinnaclePort binnaclePort) {
         this.batchPaymentPort = batchPaymentPort;
         this.accountPort = accountPort;
-        this.transferPort = transferPort;
         this.binnaclePort = binnaclePort;
     }
 

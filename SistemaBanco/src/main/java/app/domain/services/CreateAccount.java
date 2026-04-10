@@ -6,7 +6,6 @@ import app.domain.models.AccountStatement;
 import app.domain.models.Binnacle;
 import app.domain.models.Role;
 import app.domain.models.Customer;
-import app.domain.models.UserStatus;
 import app.domain.ports.AccountPort;
 import app.domain.ports.ClientPort;
 import app.domain.ports.BinnaclePort;
