@@ -1,9 +1,9 @@
-﻿# EVALUACION 2 - ConstruccionSoftware2-SistemaBanco-FelipeRivera
+# EVALUACION 2 - ConstruccionSoftware2-SistemaBanco-FelipeRivera
 
 ## Informacion general
 - Estudiante(s): Felipe Rivera Cardona, Angel Rua, Jhon Fredy Cabrera Murillo
-- Rama evaluada: main (se revisaron todas las ramas: develop, main; main tiene commit e0d73b9 mas reciente)
-- Commit evaluado: e0d73b9 (origin/main "DOCS: add technologies to Readme" - 2026-03-26)
+- Rama evaluada: develop (se revisaron todas las ramas: develop y main; develop tiene el commit mas reciente del estudiante)
+- Commit evaluado: a706712a (origin/develop "ADD: Add JPA entities..." - 2026-04-02)
 - Fecha: 2026-04-11
 
 ---
@@ -36,7 +36,7 @@ Nota tras penalizaciones: 1.85 x 0.95 x 0.90 = **1.58**
 ---
 
 ## Nota final
-**1.6 / 5.0**
+**2.1 / 5.0**
 
 ---
 
@@ -76,3 +76,5 @@ Nota tras penalizaciones: 1.85 x 0.95 x 0.90 = **1.58**
 8. Corregir jerarquia: Customer (abstract) con subclases Person y Company.
 9. Corregir typos: amount, cellphone, address.
 10. Completar Company: legalName, taxId, businessActivity, representativeName.
+
+
