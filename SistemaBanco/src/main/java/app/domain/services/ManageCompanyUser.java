@@ -23,23 +23,18 @@ public class ManageCompanyUser {
         this.clientPort = clientPort;
     }
 
-    // El supervisor de empresa puede ver y gestionar los usuarios operativos de su empresa
     public List<User> getCompanyUsers(Long companyDocument) throws BusinessException {
         Customer company = clientPort.findByDocument(companyDocument);
         if (company == null) {
             throw new BusinessException("No existe una empresa con ese documento");
         }
-
-        // Regla: solo aplica para empresas
         if (company.getCustomerRole() != CustomerRole.COMPANY_CLIENT) {
             throw new BusinessException("El documento no corresponde a una empresa");
         }
-
         return permissionPort.findUsersByCompany(companyDocument);
     }
 
-    // El supervisor activa o desactiva permisos de usuarios de su empresa
-    public void enableUser(Long companyDocument, Long targetUserId) throws BusinessException {
+    public void manageUser(Long companyDocument, Long targetUserId, boolean enable) throws BusinessException {
         Customer company = clientPort.findByDocument(companyDocument);
         if (company == null) {
             throw new BusinessException("No existe una empresa con ese documento");
@@ -48,24 +43,13 @@ public class ManageCompanyUser {
             throw new BusinessException("El documento no corresponde a una empresa");
         }
         if (targetUserId == null) {
-            throw new BusinessException("El ID del usuario a habilitar es obligatorio");
+            throw new BusinessException("El ID del usuario es obligatorio");
         }
 
-        permissionPort.grantPermission(companyDocument, targetUserId);
-    }
-
-    public void disableUser(Long companyDocument, Long targetUserId) throws BusinessException {
-        Customer company = clientPort.findByDocument(companyDocument);
-        if (company == null) {
-            throw new BusinessException("No existe una empresa con ese documento");
+        if (enable) {
+            permissionPort.grantPermission(companyDocument, targetUserId);
+        } else {
+            permissionPort.revokePermission(companyDocument, targetUserId);
         }
-        if (company.getCustomerRole() != CustomerRole.COMPANY_CLIENT) {
-            throw new BusinessException("El documento no corresponde a una empresa");
-        }
-        if (targetUserId == null) {
-            throw new BusinessException("El ID del usuario a deshabilitar es obligatorio");
-        }
-
-        permissionPort.revokePermission(companyDocument, targetUserId);
     }
 }
