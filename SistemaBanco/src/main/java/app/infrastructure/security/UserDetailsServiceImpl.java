@@ -2,7 +2,6 @@ package app.infrastructure.security;
 
 import app.domain.models.User;
 import app.domain.ports.UserPort;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,22 +15,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserPort userPort;
 
-    @Autowired
     public UserDetailsServiceImpl(UserPort userPort) {
         this.userPort = userPort;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userPort.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userPort.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("No existe un usuario con ese email");
+            throw new UsernameNotFoundException("Usuario no encontrado: " + username);
         }
-
         String role = user.getRole() != null
                 ? user.getRole().name()
                 : user.getCustomerRole().name();
-
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getDocument().toString())
