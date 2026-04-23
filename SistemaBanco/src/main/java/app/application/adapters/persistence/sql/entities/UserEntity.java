@@ -21,6 +21,12 @@ public class UserEntity extends PersonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "username", unique = true, length = 15)
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "id_customer")
     private Long idCustomer;
 
