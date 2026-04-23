@@ -1,9 +1,12 @@
 package app.domain.ports;
 
 import app.domain.models.User;
+import java.util.List;
 
 public interface UserPort {
-    User findByDocument(String document);
-    User findByEmail(String email);
     void save(User user);
+    User findByDocument(String document);
+    User findByUsername(String username);
+    User findByEmail(String email);
+    List<User> findAll();
 }
