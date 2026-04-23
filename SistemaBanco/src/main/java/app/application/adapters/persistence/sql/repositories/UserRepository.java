@@ -8,10 +8,10 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    UserEntity findByDocument(String document);
+    UserEntity findByDocument(Long document);
     UserEntity findByUsername(String username);
     UserEntity findByEmail(String email);
-    boolean existsByDocument(String document);
+    boolean existsByDocument(Long document);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
 }
