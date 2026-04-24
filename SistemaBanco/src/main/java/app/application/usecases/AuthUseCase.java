@@ -25,7 +25,7 @@ public class AuthUseCase {
         if (user == null) {
             throw new BusinessException("Credenciales inválidas");
         }
-        if (!passwordEncoder.matches(password, user.getDocument().toString())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BusinessException("Credenciales inválidas");
         }
         String role = user.getRole() != null

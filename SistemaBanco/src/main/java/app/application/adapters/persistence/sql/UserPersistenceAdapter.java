@@ -70,6 +70,7 @@ public class UserPersistenceAdapter implements UserPort {
         user.setNameUser(e.getName());
         user.setDocument(e.getDocument());
         user.setEmail(e.getEmail());
+        user.setPassword(e.getPassword());
         user.setCellphone(e.getCellphone());
         user.setAdress(e.getAddress());
         user.setBirthdate(e.getBirthdate());

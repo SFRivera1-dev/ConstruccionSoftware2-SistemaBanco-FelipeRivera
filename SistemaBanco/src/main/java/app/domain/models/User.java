@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
     private Long idUser, idCustomer;
-    private String nameUser, email, cellphone;
+    private String nameUser, email, cellphone, password;
     private Long document;
     private Date birthdate;
     private String adress;
