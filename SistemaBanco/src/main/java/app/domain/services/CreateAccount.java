@@ -12,6 +12,7 @@ import app.domain.ports.BinnaclePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Service
@@ -63,6 +64,7 @@ public class CreateAccount {
         account.setAccountStatement(AccountStatement.ACTIVE);
         account.setOpeningDate(new Date(System.currentTimeMillis()));
         account.setAccountHolderID(customer);
+        account.setCurrentBalance(BigDecimal.ZERO);
 
         accountPort.save(account);
 
