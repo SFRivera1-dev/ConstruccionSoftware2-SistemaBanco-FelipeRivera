@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import app.domain.models.Role;
 import app.domain.models.Details;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Getter
 @Setter
