@@ -16,5 +16,5 @@ public class Transfer {
     private BigDecimal mount;
     private Date creationDate, approvalDate;
     private TransferStatus transferStatus;
-    private Integer creatorUserId, approvedUserId;
+    private Long creatorUserId, approvedUserId;
 }

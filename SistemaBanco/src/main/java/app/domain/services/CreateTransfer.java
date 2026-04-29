@@ -60,7 +60,7 @@ public class CreateTransfer {
         }
 
         transfer.setCreationDate(new Date(System.currentTimeMillis()));
-        transfer.setCreatorUserId(creatorUserId.intValue());
+        transfer.setCreatorUserId(creatorUserId);
 
         // Regla: si el monto supera el umbral → queda en espera de aprobación
         // Si no supera el umbral → se ejecuta directamente (aplica a persona natural también)

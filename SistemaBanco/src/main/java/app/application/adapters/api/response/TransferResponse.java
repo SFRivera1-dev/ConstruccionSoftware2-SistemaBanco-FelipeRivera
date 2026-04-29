@@ -19,6 +19,6 @@ public class TransferResponse {
     private Date creationDate;
     private Date approvalDate;
     private TransferStatus transferStatus;
-    private Integer creatorUserId;
-    private Integer approvedUserId;
+    private Long creatorUserId;
+    private Long approvedUserId;
 }

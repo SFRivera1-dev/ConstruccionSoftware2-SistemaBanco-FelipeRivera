@@ -70,7 +70,7 @@ public class CreateBatchPayment {
             }
 
             transfer.setCreationDate(new Date(System.currentTimeMillis()));
-            transfer.setCreatorUserId(creatorUserId.intValue());
+            transfer.setCreatorUserId(creatorUserId);
 
             // Regla: si el monto supera el umbral → espera aprobación del supervisor
             if (transfer.getMount().compareTo(APPROVAL_THRESHOLD) > 0) {

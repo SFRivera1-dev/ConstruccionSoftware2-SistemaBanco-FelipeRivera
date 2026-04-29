@@ -86,7 +86,7 @@ public class ApproveTransfer {
         accountPort.save(destinationAccount);
 
         transfer.setTransferStatus(TransferStatus.EXECUTED);
-        transfer.setApprovedUserId(approverUserId.intValue());
+        transfer.setApprovedUserId(approverUserId);
         transfer.setApprovalDate(new Date(System.currentTimeMillis()));
         transferPort.updateStatus(transferId, TransferStatus.EXECUTED);
 

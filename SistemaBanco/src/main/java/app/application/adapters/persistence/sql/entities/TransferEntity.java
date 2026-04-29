@@ -42,8 +42,8 @@ public class TransferEntity {
     private TransferStatus transferStatus;
 
     @Column(name = "creator_user_id", nullable = false)
-    private Integer creatorUserId;
+    private Long creatorUserId;
 
     @Column(name = "approved_user_id")
-    private Integer approvedUserId;
+    private Long approvedUserId;
 }
