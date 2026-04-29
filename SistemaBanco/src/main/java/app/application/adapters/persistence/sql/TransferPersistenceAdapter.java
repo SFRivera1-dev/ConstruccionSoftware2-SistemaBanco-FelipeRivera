@@ -33,6 +33,16 @@ public class TransferPersistenceAdapter implements TransferPort {
     }
 
     @Override
+    public void update(Transfer transfer) {
+        transferRepository.findById(transfer.getIdTransfer()).ifPresent(e -> {
+            e.setTransferStatus(transfer.getTransferStatus());
+            e.setApprovalDate(transfer.getApprovalDate());
+            e.setApprovedUserId(transfer.getApprovedUserId());
+            transferRepository.save(e);
+        });
+    }
+
+    @Override
     public Transfer findById(Long id) {
         return transferRepository.findById(id)
                 .map(this::toModel)

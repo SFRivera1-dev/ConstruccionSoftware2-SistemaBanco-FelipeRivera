@@ -10,4 +10,5 @@ public interface TransferPort {
     List<Transfer> findByAccountNumber(String accountNumber);
     List<Transfer> findByStatus(TransferStatus status);
     void updateStatus(Long transferId, TransferStatus newStatus);
+    void update(Transfer transfer);
 }
