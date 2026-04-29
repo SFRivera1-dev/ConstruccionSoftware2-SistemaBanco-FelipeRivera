@@ -37,11 +37,6 @@ public class ApproveTransfer {
             throw new BusinessException("No existe una transferencia con ese ID");
         }
 
-        System.out.println("Transfer encontrada: " + transfer.getIdTransfer());
-        System.out.println("Status: " + transfer.getTransferStatus());
-        System.out.println("CreationDate: " + transfer.getCreationDate());
-        System.out.println("OriginAccount: " + transfer.getOriginAccount());
-
         // Regla: solo se puede aprobar si está en espera de aprobación
         if (transfer.getTransferStatus() != TransferStatus.AWAITING_APPROVAL) {
             throw new BusinessException("Solo se pueden aprobar transferencias en estado 'En espera de aprobación'");
@@ -53,7 +48,7 @@ public class ApproveTransfer {
                 .toInstant(java.time.ZoneOffset.UTC);
         long minutesWaiting = ChronoUnit.MINUTES.between(creationInstant, Instant.now());
 
-        if (minutesWaiting > 99999) {
+        if (minutesWaiting > 60) {
             transferPort.updateStatus(transferId, TransferStatus.EXPIRED);
 
             Binnacle expiredBinnacle = new Binnacle();
