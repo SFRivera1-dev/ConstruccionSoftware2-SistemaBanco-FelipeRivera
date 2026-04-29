@@ -9,5 +9,6 @@ public interface CreditPort {
     Credit findById(Long id);
     List<Credit> findByCustomerDocument(Long document);
     void updateStatus(Long creditId, CreditStatus newStatus);
+    void update(Credit credit);
 
 }

@@ -49,7 +49,7 @@ public class ApproveCredit {
             credit.setAmountApproved(amountApproved);
             credit.setCreditStatus(CreditStatus.APPROVED);
             credit.setApprovalDate(new Date(System.currentTimeMillis()));
-            creditPort.updateStatus(creditId, CreditStatus.APPROVED);
+            creditPort.update(credit);
 
             Binnacle binnacle = new Binnacle();
             binnacle.setOperationType("Aprobacion_Credito");
@@ -79,9 +79,11 @@ public class ApproveCredit {
             }
             destAccount.setCurrentBalance(destAccount.getCurrentBalance().add(credit.getAmountApproved()));
             accountPort.save(destAccount);
+            credit.setIdCredit(creditId);
             credit.setCreditStatus(CreditStatus.DISBURSED);
             credit.setDisbursementDate(new Date(System.currentTimeMillis()));
-            creditPort.updateStatus(creditId, CreditStatus.DISBURSED);
+            credit.setDestinationAccount(destinationAccount);
+            creditPort.update(credit);
 
             Binnacle binnacle = new Binnacle();
             binnacle.setOperationType("Desembolso_Credito");

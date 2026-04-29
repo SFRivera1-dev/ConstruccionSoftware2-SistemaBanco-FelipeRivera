@@ -73,6 +73,18 @@ public class CreditPersistenceAdapter implements CreditPort {
         });
     }
 
+    @Override
+    public void update(Credit credit) {
+    creditRepository.findById(credit.getIdCredit()).ifPresent(e -> {
+        e.setAmountApproved(credit.getAmountApproved());
+        e.setApprovalDate(credit.getApprovalDate());
+        e.setDisbursementDate(credit.getDisbursementDate());
+        e.setCreditStatus(credit.getCreditStatus());
+        e.setDestinationAccount(credit.getDestinationAccount());
+        creditRepository.save(e);
+    });
+}
+
     private CreditEntity toEntity(Credit credit) {
         CreditEntity e = new CreditEntity();
         e.setCreditType(credit.getCreditType());
