@@ -42,6 +42,10 @@ public class CompanyAdvisorUseCase {
         createBatchPaymet.createBatchPayment(transfers, userId, Role.COMPANY_ADVISOR);
     }
 
+    public List<BankAccount> searchAccountsByCompany(Long document) throws BusinessException {
+    return searchAccount.findByCustomerDocument(document);
+}
+
     public Transfer searchTransfer(Long transferId) throws BusinessException {
         return searchTransfer.findById(transferId);
     }
