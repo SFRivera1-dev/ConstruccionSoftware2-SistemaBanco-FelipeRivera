@@ -38,8 +38,24 @@ public class CompanyClientController {
     }
 
     @GetMapping("/accounts/{accountNumber}")
-    public ResponseEntity<AccountResponse> searchAccount(@PathVariable String accountNumber) {
+    public ResponseEntity<AccountResponse> searchAccount(
+            @PathVariable String accountNumber,
+            Authentication authentication) {
+        String document = (String) authentication.getDetails();
         BankAccount account = companyClientUseCase.searchAccount(accountNumber);
+
+        // Validar que la cuenta pertenece a la empresa
+        List<BankAccount> myAccounts = companyClientUseCase
+                .searchMyAccounts(Long.parseLong(document));
+
+        boolean isOwner = myAccounts.stream()
+                .anyMatch(acc -> acc.getAccountNumber().equals(accountNumber));
+
+        if (!isOwner) {
+            throw new app.domain.Exceptions.BusinessException(
+                    "No tienes permisos para ver esta cuenta");
+        }
+
         return ResponseEntity.ok(toAccountResponse(account));
     }
 
