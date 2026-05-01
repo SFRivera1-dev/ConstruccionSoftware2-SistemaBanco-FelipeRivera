@@ -63,20 +63,24 @@ public class CustomerPersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(toTransferResponse(transfer));
     }
 
-    @GetMapping("/credits")
-    public ResponseEntity<List<CreditResponse>> searchMyCredits(Authentication authentication) {
-        String document = (String) authentication.getDetails();
-        List<CreditResponse> credits = customerPersonUseCase
-                .searchMyCredits(Long.parseLong(document))
-                .stream().map(CustomerPersonController::toCreditResponse).toList();
-        return ResponseEntity.ok(credits);
-    }
-
     @GetMapping("/credits/{creditId}")
-    public ResponseEntity<CreditResponse> searchCredit(@PathVariable Long creditId) {
+    public ResponseEntity<CreditResponse> searchCredit(
+            @PathVariable Long creditId,
+            Authentication authentication) {
+        String document = (String) authentication.getDetails();
         Credit credit = customerPersonUseCase.searchCredit(creditId);
+
+        // Validar que el crédito pertenece al cliente
+        Long creditOwnerDocument = credit.getCustomerRequestId() != null
+                ? credit.getCustomerRequestId().getDocument() : null;
+
+        if (creditOwnerDocument == null || !creditOwnerDocument.equals(Long.parseLong(document))) {
+            throw new app.domain.Exceptions.BusinessException(
+                    "No tienes permisos para ver este crédito");
+        }
+
         return ResponseEntity.ok(toCreditResponse(credit));
-    }
+    }   
 
     @GetMapping("/transfers/{transferId}")
     public ResponseEntity<TransferResponse> searchTransfer(
