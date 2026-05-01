@@ -38,7 +38,22 @@ public class CustomerPersonController {
     }
 
     @GetMapping("/accounts/{accountNumber}")
-    public ResponseEntity<AccountResponse> searchAccount(@PathVariable String accountNumber) {
+    public ResponseEntity<AccountResponse> searchAccount(
+            @PathVariable String accountNumber,
+            Authentication authentication) {
+        String document = (String) authentication.getDetails();
+        
+        List<BankAccount> myAccounts = customerPersonUseCase
+                .searchMyAccounts(Long.parseLong(document));
+        
+        boolean isOwner = myAccounts.stream()
+                .anyMatch(acc -> acc.getAccountNumber().equals(accountNumber));
+        
+        if (!isOwner) {
+            throw new app.domain.Exceptions.BusinessException(
+                    "No tienes permisos para ver esta cuenta");
+        }
+        
         BankAccount account = customerPersonUseCase.searchAccount(accountNumber);
         return ResponseEntity.ok(toAccountResponse(account));
     }
