@@ -79,8 +79,31 @@ public class CustomerPersonController {
     }
 
     @GetMapping("/transfers/{transferId}")
-    public ResponseEntity<TransferResponse> searchTransfer(@PathVariable Long transferId) {
+    public ResponseEntity<TransferResponse> searchTransfer(
+            @PathVariable Long transferId,
+            Authentication authentication) {
+        String document = (String) authentication.getDetails();
         Transfer transfer = customerPersonUseCase.searchTransfer(transferId);
+        
+        // Validar que la transferencia pertenece al cliente
+        String originAccount = transfer.getOriginAccount() != null
+                ? transfer.getOriginAccount().getAccountNumber() : "";
+        String destinationAccount = transfer.getDestinationAccount() != null
+                ? transfer.getDestinationAccount().getAccountNumber() : "";
+        
+        // Buscar las cuentas del cliente
+        List<BankAccount> myAccounts = customerPersonUseCase
+                .searchMyAccounts(Long.parseLong(document));
+        
+        boolean isOwner = myAccounts.stream()
+                .anyMatch(acc -> acc.getAccountNumber().equals(originAccount)
+                        || acc.getAccountNumber().equals(destinationAccount));
+        
+        if (!isOwner) {
+            throw new app.domain.Exceptions.BusinessException(
+                    "No tienes permisos para ver esta transferencia");
+        }
+        
         return ResponseEntity.ok(toTransferResponse(transfer));
     }
 
