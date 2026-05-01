@@ -1,5 +1,5 @@
 package app.application.adapters.persistence.sql;
-
+import app.application.adapters.persistence.sql.repositories.BankAccountRepository;
 import app.application.adapters.persistence.sql.entities.TransferEntity;
 import app.application.adapters.persistence.sql.repositories.TransferRepository;
 import app.domain.models.Transfer;
@@ -13,9 +13,12 @@ import java.util.stream.Collectors;
 public class BatchPaymentPersistenceAdapter implements BatchPaymentPort {
 
     private final TransferRepository transferRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-    public BatchPaymentPersistenceAdapter(TransferRepository transferRepository) {
+    public BatchPaymentPersistenceAdapter(TransferRepository transferRepository,
+                                BankAccountRepository bankAccountRepository) {
         this.transferRepository = transferRepository;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     @Override
@@ -42,6 +45,14 @@ public class BatchPaymentPersistenceAdapter implements BatchPaymentPort {
         e.setTransferStatus(transfer.getTransferStatus());
         e.setCreatorUserId(transfer.getCreatorUserId());
         e.setApprovedUserId(transfer.getApprovedUserId());
+        if (transfer.getOriginAccount() != null) {
+            e.setOriginAccount(bankAccountRepository
+                    .findByAccountNumber(transfer.getOriginAccount().getAccountNumber()));
+        }
+        if (transfer.getDestinationAccount() != null) {
+            e.setDestinationAccount(bankAccountRepository
+                    .findByAccountNumber(transfer.getDestinationAccount().getAccountNumber()));
+        }
         return e;
     }
 
