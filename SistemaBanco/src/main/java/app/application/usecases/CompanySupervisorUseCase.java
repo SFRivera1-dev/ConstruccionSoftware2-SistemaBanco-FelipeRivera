@@ -43,6 +43,10 @@ public class CompanySupervisorUseCase {
         return searchTransfer.findById(transferId);
     }
 
+    public List<BankAccount> searchAccountsByCompany(Long document) throws BusinessException {
+    return searchAccount.findByCustomerDocument(document);
+}
+
     public List<Transfer> searchPendingTransfers() {
         return searchTransfer.findPendingTransfers();
     }

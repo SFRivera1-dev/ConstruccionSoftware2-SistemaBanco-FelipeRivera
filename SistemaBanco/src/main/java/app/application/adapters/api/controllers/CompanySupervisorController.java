@@ -22,14 +22,50 @@ public class CompanySupervisorController {
     }
 
     @GetMapping("/accounts/{accountNumber}")
-    public ResponseEntity<AccountResponse> searchAccount(@PathVariable String accountNumber) {
+    public ResponseEntity<AccountResponse> searchAccount(
+            @PathVariable String accountNumber,
+            Authentication authentication) {
+        String document = (String) authentication.getDetails();
+
+        List<BankAccount> myAccounts = companySupervisorUseCase
+                .searchAccountsByCompany(Long.parseLong(document));
+
+        boolean isOwner = myAccounts.stream()
+                .anyMatch(acc -> acc.getAccountNumber().equals(accountNumber));
+
+        if (!isOwner) {
+            throw new app.domain.Exceptions.BusinessException(
+                    "No tienes permisos para ver esta cuenta");
+        }
+
         BankAccount account = companySupervisorUseCase.searchAccount(accountNumber);
         return ResponseEntity.ok(toAccountResponse(account));
     }
 
     @GetMapping("/transfers/{transferId}")
-    public ResponseEntity<TransferResponse> searchTransfer(@PathVariable Long transferId) {
+    public ResponseEntity<TransferResponse> searchTransfer(
+            @PathVariable Long transferId,
+            Authentication authentication) {
+        String document = (String) authentication.getDetails();
         Transfer transfer = companySupervisorUseCase.searchTransfer(transferId);
+
+        List<BankAccount> myAccounts = companySupervisorUseCase
+                .searchAccountsByCompany(Long.parseLong(document));
+
+        String originAccount = transfer.getOriginAccount() != null
+                ? transfer.getOriginAccount().getAccountNumber() : "";
+        String destinationAccount = transfer.getDestinationAccount() != null
+                ? transfer.getDestinationAccount().getAccountNumber() : "";
+
+        boolean isOwner = myAccounts.stream()
+                .anyMatch(acc -> acc.getAccountNumber().equals(originAccount)
+                        || acc.getAccountNumber().equals(destinationAccount));
+
+        if (!isOwner) {
+            throw new app.domain.Exceptions.BusinessException(
+                    "No tienes permisos para ver esta transferencia");
+        }
+
         return ResponseEntity.ok(toTransferResponse(transfer));
     }
 
