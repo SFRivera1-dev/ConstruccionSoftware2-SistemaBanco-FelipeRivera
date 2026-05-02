@@ -1,5 +1,6 @@
 package app.application.usecases;
-
+import app.domain.services.SearchBinnacle;
+import app.domain.models.Binnacle;
 import app.domain.Exceptions.BusinessException;
 import app.domain.models.BankAccount;
 import app.domain.models.Credit;
@@ -22,16 +23,18 @@ public class CustomerPersonUseCase {
     private final CreateTransfer createTransfer;
     private final SearchCredit searchCredit;
     private final SearchTransfer searchTransfer;
+    private final SearchBinnacle searchBinnacle;
 
     @Autowired
     public CustomerPersonUseCase(SearchAccount searchAccount, CreateCredit createCredit,
                                   CreateTransfer createTransfer, SearchCredit searchCredit,
-                                  SearchTransfer searchTransfer) {
+                                  SearchTransfer searchTransfer, SearchBinnacle searchBinnacle) {
         this.searchAccount = searchAccount;
         this.createCredit = createCredit;
         this.createTransfer = createTransfer;
         this.searchCredit = searchCredit;
         this.searchTransfer = searchTransfer;
+        this.searchBinnacle = searchBinnacle;
     }
 
     public List<BankAccount> searchMyAccounts(Long document) throws BusinessException {
@@ -57,6 +60,10 @@ public class CustomerPersonUseCase {
     public Credit searchCredit(Long creditId) throws BusinessException {
         return searchCredit.findById(creditId);
     }
+
+    public List<Binnacle> searchMyBinnacle(String productId) throws BusinessException {
+    return searchBinnacle.findByProductId(productId);
+}
 
     public Transfer searchTransfer(Long transferId) throws BusinessException {
         return searchTransfer.findById(transferId);

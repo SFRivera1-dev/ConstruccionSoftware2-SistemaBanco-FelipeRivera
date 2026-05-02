@@ -7,6 +7,7 @@ import app.application.adapters.api.response.CreditResponse;
 import app.application.adapters.api.response.TransferResponse;
 import app.application.usecases.CustomerPersonUseCase;
 import app.domain.models.BankAccount;
+import app.domain.models.Binnacle;
 import app.domain.models.Credit;
 import app.domain.models.CustomerPerson;
 import app.domain.models.Transfer;
@@ -56,6 +57,12 @@ public class CustomerPersonController {
         
         BankAccount account = customerPersonUseCase.searchAccount(accountNumber);
         return ResponseEntity.ok(toAccountResponse(account));
+    }
+    
+    @GetMapping("/binnacle/{productId}")
+    public ResponseEntity<List<Binnacle>> searchMyBinnacle(
+                    @PathVariable String productId) {
+            return ResponseEntity.ok(customerPersonUseCase.searchMyBinnacle(productId));
     }
 
     @PostMapping("/credits")
