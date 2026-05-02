@@ -54,7 +54,7 @@ public class ApproveTransfer {
 
             Binnacle expiredBinnacle = new Binnacle();
             expiredBinnacle.setOperationType("Transferencia_Vencida");
-            expiredBinnacle.setDatetimeOperation(new java.util.Date());
+            expiredBinnacle.setDatetimeOperation(new Date(System.currentTimeMillis()));
             expiredBinnacle.setIdUser(approverUserId);
             expiredBinnacle.setRoleUser(approverRole);
             expiredBinnacle.setAffectedProductId(String.valueOf(transferId));
@@ -105,7 +105,7 @@ public class ApproveTransfer {
 
         Binnacle binnacle = new Binnacle();
         binnacle.setOperationType("Transferencia_Aprobada_Ejecutada");
-        binnacle.setDatetimeOperation(new java.util.Date());
+        binnacle.setDatetimeOperation(new Date(System.currentTimeMillis()));
         binnacle.setIdUser(approverUserId);
         binnacle.setRoleUser(approverRole);
         binnacle.setAffectedProductId(String.valueOf(transferId));

@@ -59,7 +59,7 @@ public class ApproveCredit {
 
             Binnacle binnacle = new Binnacle();
             binnacle.setOperationType("Aprobacion_Credito");
-            binnacle.setDatetimeOperation(new java.util.Date());
+            binnacle.setDatetimeOperation(new Date(System.currentTimeMillis()));
             binnacle.setIdUser(analystUserId);
             binnacle.setRoleUser(Role.BANK_INTERNAL_ANALYST);
             binnacle.setAffectedProductId(String.valueOf(creditId));
@@ -104,7 +104,7 @@ public class ApproveCredit {
 
             Binnacle binnacle = new Binnacle();
             binnacle.setOperationType("Desembolso_Credito");
-            binnacle.setDatetimeOperation(new java.util.Date());
+            binnacle.setDatetimeOperation(new Date(System.currentTimeMillis()));
             binnacle.setIdUser(analystUserId);
             binnacle.setRoleUser(Role.BANK_INTERNAL_ANALYST);
             binnacle.setAffectedProductId(String.valueOf(creditId));
