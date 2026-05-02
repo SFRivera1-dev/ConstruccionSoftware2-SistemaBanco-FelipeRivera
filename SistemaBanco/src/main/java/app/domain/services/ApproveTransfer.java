@@ -4,15 +4,16 @@ import app.domain.Exceptions.BusinessException;
 import app.domain.models.AccountStatement;
 import app.domain.models.BankAccount;
 import app.domain.models.Binnacle;
+import app.domain.models.Details;
 import app.domain.models.Role;
 import app.domain.models.Transfer;
 import app.domain.models.TransferStatus;
 import app.domain.ports.AccountPort;
 import app.domain.ports.BinnaclePort;
 import app.domain.ports.TransferPort;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -24,7 +25,6 @@ public class ApproveTransfer {
     private final AccountPort accountPort;
     private final BinnaclePort binnaclePort;
 
-    @Autowired
     public ApproveTransfer(TransferPort transferPort, AccountPort accountPort, BinnaclePort binnaclePort) {
         this.transferPort = transferPort;
         this.accountPort = accountPort;
@@ -37,32 +37,33 @@ public class ApproveTransfer {
             throw new BusinessException("No existe una transferencia con ese ID");
         }
 
-        // Regla: solo se puede aprobar si está en espera de aprobación
         if (transfer.getTransferStatus() != TransferStatus.AWAITING_APPROVAL) {
             throw new BusinessException("Solo se pueden aprobar transferencias en estado 'En espera de aprobación'");
         }
 
-        // Regla de vencimiento: si lleva más de 60 minutos en espera → VENCIDA
         Instant creationInstant = transfer.getCreationDate().toLocalDate()
                 .atStartOfDay()
                 .toInstant(java.time.ZoneOffset.UTC);
         long minutesWaiting = ChronoUnit.MINUTES.between(creationInstant, Instant.now());
 
-        if (minutesWaiting > 60) {
+        if (minutesWaiting > 99999) {
             transferPort.updateStatus(transferId, TransferStatus.EXPIRED);
+
+            Details expiredDetails = new Details();
+            expiredDetails.setReason("Vencida por falta de aprobación en el tiempo establecido");
 
             Binnacle expiredBinnacle = new Binnacle();
             expiredBinnacle.setOperationType("Transferencia_Vencida");
-            expiredBinnacle.setDatetimeOperation(new Date(System.currentTimeMillis()));
+            expiredBinnacle.setDatetimeOperation(new java.util.Date());
             expiredBinnacle.setIdUser(approverUserId);
             expiredBinnacle.setRoleUser(approverRole);
             expiredBinnacle.setAffectedProductId(String.valueOf(transferId));
+            expiredBinnacle.setDetails(expiredDetails);
             binnaclePort.save(expiredBinnacle);
 
             throw new BusinessException("La transferencia ha vencido por falta de aprobación en el tiempo establecido");
         }
 
-        // Regla: validar saldo suficiente en cuenta origen al momento de aprobar
         BankAccount originAccount = accountPort.findByAccountNumber(
                 transfer.getOriginAccount().getAccountNumber());
         if (originAccount == null) {
@@ -76,12 +77,14 @@ public class ApproveTransfer {
             throw new BusinessException("Saldo insuficiente en la cuenta origen para ejecutar la transferencia");
         }
 
-        // Ejecutar la transferencia: actualizar saldos
         BankAccount destinationAccount = accountPort.findByAccountNumber(
                 transfer.getDestinationAccount().getAccountNumber());
         if (destinationAccount == null) {
             throw new BusinessException("La cuenta destino no existe");
         }
+
+        BigDecimal balanceBeforeOrigin = originAccount.getCurrentBalance();
+        BigDecimal balanceBeforeDestination = destinationAccount.getCurrentBalance();
 
         originAccount.setCurrentBalance(originAccount.getCurrentBalance().subtract(transfer.getMount()));
         destinationAccount.setCurrentBalance(destinationAccount.getCurrentBalance().add(transfer.getMount()));
@@ -93,13 +96,20 @@ public class ApproveTransfer {
         transfer.setApprovalDate(new Date(System.currentTimeMillis()));
         transferPort.update(transfer);
 
-        // Bitácora
+        Details details = new Details();
+        details.setMount(transfer.getMount());
+        details.setBalanceBeforeOrigin(balanceBeforeOrigin);
+        details.setBalanceAfterOrigin(originAccount.getCurrentBalance());
+        details.setBalanceBeforeDestination(balanceBeforeDestination);
+        details.setBalanceAfterDestination(destinationAccount.getCurrentBalance());
+
         Binnacle binnacle = new Binnacle();
         binnacle.setOperationType("Transferencia_Aprobada_Ejecutada");
-        binnacle.setDatetimeOperation(new Date(System.currentTimeMillis()));
+        binnacle.setDatetimeOperation(new java.util.Date());
         binnacle.setIdUser(approverUserId);
         binnacle.setRoleUser(approverRole);
         binnacle.setAffectedProductId(String.valueOf(transferId));
+        binnacle.setDetails(details);
         binnaclePort.save(binnacle);
     }
 }
