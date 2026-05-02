@@ -70,10 +70,13 @@ public class CompanySupervisorController {
     }
 
     @GetMapping("/transfers/pending")
-    public ResponseEntity<List<TransferResponse>> searchPendingTransfers() {
-        List<TransferResponse> transfers = companySupervisorUseCase.searchPendingTransfers()
-                .stream().map(CompanySupervisorController::toTransferResponse).toList();
-        return ResponseEntity.ok(transfers);
+    public ResponseEntity<List<TransferResponse>> searchPendingTransfers(
+                    Authentication authentication) {
+            String document = (String) authentication.getDetails();
+            List<TransferResponse> transfers = companySupervisorUseCase
+                            .searchPendingTransfersByCompany(Long.parseLong(document))
+                            .stream().map(CompanySupervisorController::toTransferResponse).toList();
+            return ResponseEntity.ok(transfers);
     }
 
     @PutMapping("/transfers/{transferId}/approve")

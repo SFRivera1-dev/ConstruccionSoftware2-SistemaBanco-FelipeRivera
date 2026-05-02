@@ -42,4 +42,12 @@ public class SearchTransfer {
     public List<Transfer> findPendingTransfers() {
         return transferPort.findByStatus(TransferStatus.AWAITING_APPROVAL);
     }
+
+    public List<Transfer> findPendingTransfersByAccounts(List<String> accountNumbers) {
+        return transferPort.findByStatus(TransferStatus.AWAITING_APPROVAL)
+                .stream()
+                .filter(t -> t.getOriginAccount() != null &&
+                        accountNumbers.contains(t.getOriginAccount().getAccountNumber()))
+                .collect(java.util.stream.Collectors.toList());
+    }
 }

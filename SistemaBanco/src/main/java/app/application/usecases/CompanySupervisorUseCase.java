@@ -12,7 +12,7 @@ import app.domain.services.SearchAccount;
 import app.domain.services.SearchTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.stream.Collectors;
 import java.util.List;
 
 @Service
@@ -65,5 +65,13 @@ public class CompanySupervisorUseCase {
 
     public void manageUser(Long companyDocument, Long targetUserId, boolean enable) throws BusinessException {
         manageCompanyUser.manageUser(companyDocument, targetUserId, enable);
+    }
+
+    public List<Transfer> searchPendingTransfersByCompany(Long document) throws BusinessException {
+        List<String> accountNumbers = searchAccount.findByCustomerDocument(document)
+                .stream()
+                .map(BankAccount::getAccountNumber)
+                .collect(java.util.stream.Collectors.toList());
+        return searchTransfer.findPendingTransfersByAccounts(accountNumbers);
     }
 }
