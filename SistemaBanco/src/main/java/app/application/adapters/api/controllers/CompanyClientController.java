@@ -7,6 +7,7 @@ import app.application.adapters.api.response.CreditResponse;
 import app.application.adapters.api.response.TransferResponse;
 import app.application.usecases.CompanyClientUseCase;
 import app.domain.models.BankAccount;
+import app.domain.models.Binnacle;
 import app.domain.models.Credit;
 import app.domain.models.CustomerCompany;
 import app.domain.models.Transfer;
@@ -110,6 +111,12 @@ public class CompanyClientController {
         String document = (String) authentication.getDetails();
         return ResponseEntity.ok(
                 companyClientUseCase.getCompanyUsers(Long.parseLong(document)));
+    }
+
+    @GetMapping("/binnacle/{productId}")
+    public ResponseEntity<List<Binnacle>> searchMyBinnacle(
+                    @PathVariable String productId) {
+            return ResponseEntity.ok(companyClientUseCase.searchMyBinnacle(productId));
     }
 
     @PutMapping("/transfers/{transferId}/approve")

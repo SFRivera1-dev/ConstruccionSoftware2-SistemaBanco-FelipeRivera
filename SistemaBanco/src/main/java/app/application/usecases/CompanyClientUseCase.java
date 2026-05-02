@@ -2,6 +2,7 @@ package app.application.usecases;
 
 import app.domain.Exceptions.BusinessException;
 import app.domain.models.BankAccount;
+import app.domain.models.Binnacle;
 import app.domain.models.Credit;
 import app.domain.models.Transfer;
 import app.domain.models.User;
@@ -10,6 +11,7 @@ import app.domain.services.DelegatePermissions;
 import app.domain.services.ApproveTransfer;
 import app.domain.services.RejectTransfer;
 import app.domain.services.SearchAccount;
+import app.domain.services.SearchBinnacle;
 import app.domain.services.SearchCredit;
 import app.domain.services.SearchTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +29,14 @@ public class CompanyClientUseCase {
     private final ApproveTransfer approveTransfer;
     private final RejectTransfer rejectTransfer;
     private final SearchTransfer searchTransfer;
+    private final SearchBinnacle searchBinnacle;
+
 
     @Autowired
     public CompanyClientUseCase(SearchAccount searchAccount, SearchCredit searchCredit,
                                  CreateCredit createCredit, DelegatePermissions delegatePermissions,
                                  ApproveTransfer approveTransfer, RejectTransfer rejectTransfer,
-                                 SearchTransfer searchTransfer) {
+                                 SearchTransfer searchTransfer, SearchBinnacle searchBinnacle) {
         this.searchAccount = searchAccount;
         this.searchCredit = searchCredit;
         this.createCredit = createCredit;
@@ -40,11 +44,17 @@ public class CompanyClientUseCase {
         this.approveTransfer = approveTransfer;
         this.rejectTransfer = rejectTransfer;
         this.searchTransfer = searchTransfer;
+        this.searchBinnacle = searchBinnacle;
     }
 
     public List<BankAccount> searchMyAccounts(Long document) throws BusinessException {
         return searchAccount.findByCustomerDocument(document);
     }
+
+    public List<Binnacle> searchMyBinnacle(String productId) throws BusinessException {
+    return searchBinnacle.findByProductId(productId);
+}
+
 
     public BankAccount searchAccount(String accountNumber) throws BusinessException {
         return searchAccount.findByAccountNumber(accountNumber);
