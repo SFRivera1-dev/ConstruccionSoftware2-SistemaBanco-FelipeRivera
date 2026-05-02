@@ -4,6 +4,7 @@ import app.domain.Exceptions.BusinessException;
 import app.domain.models.AccountStatement;
 import app.domain.models.BankAccount;
 import app.domain.models.Binnacle;
+import app.domain.models.Details;
 import app.domain.models.Role;
 import app.domain.models.Transfer;
 import app.domain.models.TransferStatus;
@@ -82,13 +83,26 @@ public class CreateTransfer {
                 throw new BusinessException("Saldo insuficiente en la cuenta origen");
             }
 
+            //Ejecuta la transferencia
             originAccount.setCurrentBalance(originAccount.getCurrentBalance().subtract(transfer.getMount()));
             destinationAccount.setCurrentBalance(destinationAccount.getCurrentBalance().add(transfer.getMount()));
+            
+            //Guardar saldos antes para la bitacora
+            BigDecimal balanceBeforeOrigin = originAccount.getCurrentBalance().add(transfer.getMount());
+            BigDecimal balanceBeforeDestination = destinationAccount.getCurrentBalance().subtract(transfer.getMount());
+
             accountPort.save(originAccount);
             accountPort.save(destinationAccount);
 
             transfer.setTransferStatus(TransferStatus.EXECUTED);
             transferPort.save(transfer);
+
+            Details details = new Details();
+            details.setMount(transfer.getMount());
+            details.setBalanceBeforeOrigin(balanceBeforeOrigin);
+            details.setBalanceAfterOrigin(originAccount.getCurrentBalance());
+            details.setBalanceBeforeDestination(balanceBeforeDestination);
+            details.setBalanceAfterDestination(destinationAccount.getCurrentBalance());
 
             Binnacle binnacle = new Binnacle();
             binnacle.setOperationType("Transferencia_Ejecutada");
@@ -96,6 +110,7 @@ public class CreateTransfer {
             binnacle.setIdUser(creatorUserId);
             binnacle.setRoleUser(creatorRole);
             binnacle.setAffectedProductId(String.valueOf(transfer.getIdTransfer()));
+            binnacle.setDetails(details);
             binnaclePort.save(binnacle);
         }
     }
