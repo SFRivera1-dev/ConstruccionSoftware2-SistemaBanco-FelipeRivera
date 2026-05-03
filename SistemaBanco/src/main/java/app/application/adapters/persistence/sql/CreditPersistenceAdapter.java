@@ -35,7 +35,8 @@ public class CreditPersistenceAdapter implements CreditPort {
 
     @Override
     public void save(Credit credit) {
-        creditRepository.save(toEntity(credit));
+        CreditEntity saved = creditRepository.save(toEntity(credit));
+        credit.setIdCredit(saved.getId());
     }
 
     @Override
