@@ -7,10 +7,11 @@ import app.domain.models.Transfer;
 import app.domain.services.CreateBatchPayment;
 import app.domain.services.CreateTransfer;
 import app.domain.services.SearchAccount;
+import app.domain.services.SearchClient;
 import app.domain.services.SearchTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import app.domain.models.User;
 import java.util.List;
 
 @Service
@@ -20,19 +21,26 @@ public class CompanyAdvisorUseCase {
     private final CreateTransfer createTransfer;
     private final CreateBatchPayment createBatchPaymet;
     private final SearchTransfer searchTransfer;
+    private final SearchClient searchClient;
 
     @Autowired
     public CompanyAdvisorUseCase(SearchAccount searchAccount, CreateTransfer createTransfer,
-                                  CreateBatchPayment createBatchPaymet, SearchTransfer searchTransfer) {
+                                  CreateBatchPayment createBatchPaymet, SearchTransfer searchTransfer,
+                                SearchClient searchClient) {
         this.searchAccount = searchAccount;
         this.createTransfer = createTransfer;
         this.createBatchPaymet = createBatchPaymet;
         this.searchTransfer = searchTransfer;
+        this.searchClient = searchClient;
     }
 
     public BankAccount searchAccount(String accountNumber) throws BusinessException {
         return searchAccount.findByAccountNumber(accountNumber);
     }
+
+    public User findUserByDocument(Long document) throws BusinessException {
+    return searchClient.findUserByDocument(document);
+}
 
     public void createTransfer(Transfer transfer, Long userId) throws BusinessException {
         createTransfer.createTransfer(transfer, userId, Role.COMPANY_ADVISOR);

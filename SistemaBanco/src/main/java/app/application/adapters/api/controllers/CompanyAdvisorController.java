@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
+import app.domain.models.User;
 import java.util.List;
 
 @RestController
@@ -30,8 +30,18 @@ public class CompanyAdvisorController {
             Authentication authentication) {
         String document = (String) authentication.getDetails();
 
+        System.out.println("Documento empleado: " + document);
+
+        User user = companyAdvisorUseCase.findUserByDocument(Long.parseLong(document));
+        Long companyDocument = user.getIdCustomer();
+
+        System.out.println("Documento empresa: " + companyDocument);
+
+
         List<BankAccount> myAccounts = companyAdvisorUseCase
                 .searchAccountsByCompany(Long.parseLong(document));
+        
+        System.out.println("Cuentas encontradas: " + myAccounts.size());
 
         boolean isOwner = myAccounts.stream()
                 .anyMatch(acc -> acc.getAccountNumber().equals(accountNumber));
