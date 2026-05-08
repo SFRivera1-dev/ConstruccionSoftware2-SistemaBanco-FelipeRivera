@@ -10,7 +10,6 @@ import app.domain.models.BankAccount;
 import app.domain.models.CustomerCompany;
 import app.domain.models.CustomerPerson;
 import app.domain.ports.AccountPort;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class AccountPersistenceAdapter implements AccountPort {
     private final CustomerPersonRepository customerPersonRepository;
     private final CustomerCompanyRepository customerCompanyRepository;
 
-    @Autowired
     public AccountPersistenceAdapter(BankAccountRepository bankAccountRepository,
                                      CustomerPersonRepository customerPersonRepository,
                                      CustomerCompanyRepository customerCompanyRepository) {
@@ -49,14 +47,14 @@ public class AccountPersistenceAdapter implements AccountPort {
 
         CustomerPersonEntity personEntity = customerPersonRepository.findByDocument(document);
         if (personEntity != null) {
-            bankAccountRepository.findByCustomerPerson(personEntity)
+            bankAccountRepository.findByCustomerPersonId(personEntity.getId())
                     .forEach(e -> result.add(toModel(e)));
             return result;
         }
 
         CustomerCompanyEntity companyEntity = customerCompanyRepository.findByDocument(document);
         if (companyEntity != null) {
-            bankAccountRepository.findByCustomerCompany(companyEntity)
+            bankAccountRepository.findByCustomerCompanyId(companyEntity.getId())
                     .forEach(e -> result.add(toModel(e)));
         }
 

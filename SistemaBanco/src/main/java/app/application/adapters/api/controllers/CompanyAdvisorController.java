@@ -30,18 +30,11 @@ public class CompanyAdvisorController {
             Authentication authentication) {
         String document = (String) authentication.getDetails();
 
-        System.out.println("Documento empleado: " + document);
-
         User user = companyAdvisorUseCase.findUserByDocument(Long.parseLong(document));
         Long companyDocument = user.getIdCustomer();
 
-        System.out.println("Documento empresa: " + companyDocument);
-
-
         List<BankAccount> myAccounts = companyAdvisorUseCase
-                .searchAccountsByCompany(Long.parseLong(document));
-        
-        System.out.println("Cuentas encontradas: " + myAccounts.size());
+                .searchAccountsByCompany(companyDocument);
 
         boolean isOwner = myAccounts.stream()
                 .anyMatch(acc -> acc.getAccountNumber().equals(accountNumber));
@@ -83,8 +76,9 @@ public class CompanyAdvisorController {
         String document = (String) authentication.getDetails();
         Transfer transfer = companyAdvisorUseCase.searchTransfer(transferId);
 
+        User user = companyAdvisorUseCase.findUserByDocument(Long.parseLong(document));
         List<BankAccount> myAccounts = companyAdvisorUseCase
-                .searchAccountsByCompany(Long.parseLong(document));
+                .searchAccountsByCompany(user.getIdCustomer());
 
         String originAccount = transfer.getOriginAccount() != null
                 ? transfer.getOriginAccount().getAccountNumber() : "";

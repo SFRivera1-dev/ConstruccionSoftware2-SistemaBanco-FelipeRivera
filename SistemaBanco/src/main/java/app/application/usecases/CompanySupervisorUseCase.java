@@ -9,6 +9,7 @@ import app.domain.services.ApproveTransfer;
 import app.domain.services.ManageCompanyUser;
 import app.domain.services.RejectTransfer;
 import app.domain.services.SearchAccount;
+import app.domain.services.SearchClient;
 import app.domain.services.SearchTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,16 +24,18 @@ public class CompanySupervisorUseCase {
     private final ApproveTransfer approveTransfer;
     private final RejectTransfer rejectTransfer;
     private final ManageCompanyUser manageCompanyUser;
+    private final SearchClient searchClient;
 
     @Autowired
     public CompanySupervisorUseCase(SearchAccount searchAccount, SearchTransfer searchTransfer,
                                      ApproveTransfer approveTransfer, RejectTransfer rejectTransfer,
-                                     ManageCompanyUser manageCompanyUser) {
+                                     ManageCompanyUser manageCompanyUser, SearchClient searchClient) {
         this.searchAccount = searchAccount;
         this.searchTransfer = searchTransfer;
         this.approveTransfer = approveTransfer;
         this.rejectTransfer = rejectTransfer;
         this.manageCompanyUser = manageCompanyUser;
+        this.searchClient = searchClient;
     }
 
     public BankAccount searchAccount(String accountNumber) throws BusinessException {
@@ -65,6 +68,10 @@ public class CompanySupervisorUseCase {
 
     public void manageUser(Long companyDocument, Long targetUserId, boolean enable) throws BusinessException {
         manageCompanyUser.manageUser(companyDocument, targetUserId, enable);
+    }
+
+    public User findUserByDocument(Long document) throws BusinessException {
+        return searchClient.findUserByDocument(document);
     }
 
     public List<Transfer> searchPendingTransfersByCompany(Long document) throws BusinessException {

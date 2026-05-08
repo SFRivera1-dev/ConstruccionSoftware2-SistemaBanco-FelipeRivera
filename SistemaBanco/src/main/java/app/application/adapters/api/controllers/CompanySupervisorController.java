@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import app.domain.models.User;
 import java.util.List;
 
 @RestController
@@ -27,8 +28,9 @@ public class CompanySupervisorController {
             Authentication authentication) {
         String document = (String) authentication.getDetails();
 
+        User user = companySupervisorUseCase.findUserByDocument(Long.parseLong(document));
         List<BankAccount> myAccounts = companySupervisorUseCase
-                .searchAccountsByCompany(Long.parseLong(document));
+                .searchAccountsByCompany(user.getIdCustomer());
 
         boolean isOwner = myAccounts.stream()
                 .anyMatch(acc -> acc.getAccountNumber().equals(accountNumber));
@@ -49,8 +51,9 @@ public class CompanySupervisorController {
         String document = (String) authentication.getDetails();
         Transfer transfer = companySupervisorUseCase.searchTransfer(transferId);
 
+        User user = companySupervisorUseCase.findUserByDocument(Long.parseLong(document));
         List<BankAccount> myAccounts = companySupervisorUseCase
-                .searchAccountsByCompany(Long.parseLong(document));
+                .searchAccountsByCompany(user.getIdCustomer());
 
         String originAccount = transfer.getOriginAccount() != null
                 ? transfer.getOriginAccount().getAccountNumber() : "";
@@ -73,8 +76,9 @@ public class CompanySupervisorController {
     public ResponseEntity<List<TransferResponse>> searchPendingTransfers(
                     Authentication authentication) {
             String document = (String) authentication.getDetails();
+            User user = companySupervisorUseCase.findUserByDocument(Long.parseLong(document));
             List<TransferResponse> transfers = companySupervisorUseCase
-                            .searchPendingTransfersByCompany(Long.parseLong(document))
+                            .searchPendingTransfersByCompany(user.getIdCustomer())
                             .stream().map(CompanySupervisorController::toTransferResponse).toList();
             return ResponseEntity.ok(transfers);
     }
