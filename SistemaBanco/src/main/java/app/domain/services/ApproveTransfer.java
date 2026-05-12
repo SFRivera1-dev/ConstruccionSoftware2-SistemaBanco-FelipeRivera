@@ -46,7 +46,7 @@ public class ApproveTransfer {
                 .toInstant(java.time.ZoneOffset.UTC);
         long minutesWaiting = ChronoUnit.MINUTES.between(creationInstant, Instant.now());
 
-        if (minutesWaiting > 99999) {
+        if (minutesWaiting > 60) {
             transferPort.updateStatus(transferId, TransferStatus.EXPIRED);
 
             Details expiredDetails = new Details();
