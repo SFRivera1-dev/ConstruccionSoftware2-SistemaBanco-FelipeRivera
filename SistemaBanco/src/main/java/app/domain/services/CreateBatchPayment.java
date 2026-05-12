@@ -11,7 +11,6 @@ import app.domain.models.TransferStatus;
 import app.domain.ports.AccountPort;
 import app.domain.ports.BatchPaymentPort;
 import app.domain.ports.BinnaclePort;
-import app.domain.ports.TransferPort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

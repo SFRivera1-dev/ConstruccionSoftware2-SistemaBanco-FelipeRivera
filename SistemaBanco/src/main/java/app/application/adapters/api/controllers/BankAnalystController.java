@@ -1,14 +1,11 @@
 package app.application.adapters.api.controllers;
 
-import app.application.adapters.api.request.CreditRequest;
 import app.application.adapters.api.response.AccountResponse;
 import app.application.adapters.api.response.CreditResponse;
 import app.application.usecases.BankAnalystUseCase;
 import app.domain.models.BankAccount;
 import app.domain.models.Binnacle;
 import app.domain.models.Credit;
-import app.domain.models.CustomerPerson;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

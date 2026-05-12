@@ -2,10 +2,7 @@ package app.application.adapters.persistence.sql;
 
 import app.application.adapters.persistence.sql.entities.UserEntity;
 import app.application.adapters.persistence.sql.repositories.UserRepository;
-import app.domain.models.CustomerRole;
-import app.domain.models.Role;
 import app.domain.models.User;
-import app.domain.models.UserStatus;
 import app.domain.ports.UserPort;
 import org.springframework.stereotype.Service;
 
