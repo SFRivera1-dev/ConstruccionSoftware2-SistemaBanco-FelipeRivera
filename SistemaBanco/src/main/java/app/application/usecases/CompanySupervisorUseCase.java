@@ -13,7 +13,6 @@ import app.domain.services.SearchClient;
 import app.domain.services.SearchTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collectors;
 import java.util.List;
 
 @Service
@@ -49,10 +48,6 @@ public class CompanySupervisorUseCase {
     public List<BankAccount> searchAccountsByCompany(Long document) throws BusinessException {
     return searchAccount.findByCustomerDocument(document);
 }
-
-    public List<Transfer> searchPendingTransfers() {
-        return searchTransfer.findPendingTransfers();
-    }
 
     public void approveTransfer(Long transferId, Long userId) throws BusinessException {
         approveTransfer.approveTransfer(transferId, userId, Role.COMPANY_SUPERVISOR);
